@@ -1,21 +1,26 @@
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+
+  const appVersion = configService.get<string>('APP_VERSION') ?? '0.2.0';
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('USIApp API')
     .setDescription('USIApp backend API documentation')
-    .setVersion('0.1.0')
+    .setVersion(appVersion)
     .addTag('health')
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, swaggerDocument);
 
-  await app.listen(process.env.PORT ?? 3000);
+  const port = configService.get<number>('PORT') ?? 3000;
+  await app.listen(port);
 }
 
 bootstrap();

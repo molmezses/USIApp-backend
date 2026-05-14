@@ -26,7 +26,7 @@ export class AppController {
       example: {
         status: 'ok',
         app: 'USIApp Backend',
-        version: '0.1.0',
+        version: '0.2.0',
       },
     },
   })
@@ -34,7 +34,7 @@ export class AppController {
     return {
       status: 'ok',
       app: 'USIApp Backend',
-      version: '0.1.0',
+      version: '0.2.0',
     };
   }
 }
